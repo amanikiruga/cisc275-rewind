@@ -1,6 +1,6 @@
 import useStyles from "./styles";
-const Post = () => {
+const Project = () => {
     const classes = useStyles();
-    return <h1>Post</h1>;
+    return <h1>Project</h1>;
 };
-export default Post;
+export default Project;

@@ -1,11 +1,12 @@
-export default (projects = [], action: any) => {
+const Projects = (projects = ["default"], action: any) => {
     switch (action.type) {
         case "FETCH_ALL":
             return action.payload;
         case "CREATE":
-            return projects;
+            return [...projects, action.payload];
 
         default:
-            return;
+            return projects;
     }
 };
+export default Projects;

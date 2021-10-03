@@ -9,7 +9,7 @@ const App = () => {
     const classes = useStyles();
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getProjects);
+        dispatch(getProjects());
     }, [dispatch]);
 
     return (
@@ -35,7 +35,7 @@ const App = () => {
                 <Container>
                     <Grid
                         container
-                        justify="space-between"
+                        justifyContent="space-between"
                         alignItems="stretch"
                         spacing={3}
                     >
