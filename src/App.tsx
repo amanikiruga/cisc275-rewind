@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Container, AppBar, Typography, Grow, Grid } from "@material-ui/core";
+import Projects from "./components/Projects/Projects";
+import Form from "./components/Form/Form";
+import { getProjects } from "./actions/projects";
+import useStyles from "./styles";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+const App = () => {
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getProjects);
+    }, [dispatch]);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    return (
+        <Container maxWidth="lg">
+            <AppBar
+                position="static"
+                className={classes.appBar}
+                color="inherit"
+            >
+                <Typography
+                    variant="h2"
+                    className={classes.heading}
+                    align="center"
+                >
+                    CISC275 Rewind
+                    {
+                        //insert img className = {classes.image}
+                    }
+                </Typography>
+            </AppBar>
+
+            <Grow in>
+                <Container>
+                    <Grid
+                        container
+                        justify="space-between"
+                        alignItems="stretch"
+                        spacing={3}
+                    >
+                        <Grid item xs={12} sm={7}>
+                            <Projects />
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <Form />
+                        </Grid>
+                    </Grid>
+                </Container>
+            </Grow>
+        </Container>
+    );
+};
 
 export default App;
