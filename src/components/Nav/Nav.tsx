@@ -4,7 +4,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 const Nav = () => {
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -15,14 +15,15 @@ const Nav = () => {
                         component="div"
                         sx={{ flexGrow: 1 }}
                     >
-                        News
+                        <Link to="/">CISC275: Rewind</Link>
                     </Typography>
 
                     <Link to="/projects">View Projects</Link>
+                    <Link to="/add-project">Add Project</Link>
                 </Toolbar>
             </AppBar>
         </Box>
     );
 };
 
-export default Nav;
+export default withRouter(Nav);

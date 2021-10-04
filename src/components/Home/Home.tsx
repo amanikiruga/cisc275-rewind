@@ -4,7 +4,6 @@ import Nav from "../Nav/Nav";
 const Home = () => {
     return (
         <div>
-            <Nav />
             <Container>
                 <Typography sx={{ mb: 2, mt: 2 }} variant="h2" component="h1">
                     CISC275: Rewind

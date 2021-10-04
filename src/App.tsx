@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import Home from "./components/Home/Home";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Nav from "./components/Nav/Nav";
 
 const App = () => {
     const classes = useStyles();
@@ -20,19 +21,7 @@ const App = () => {
     return (
         <Router>
             <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/projects">View Projects</Link>
-                        </li>
-                        <li>
-                            <Link to="/add-project">Add Project</Link>
-                        </li>
-                    </ul>
-                </nav>
+                <Nav />
 
                 {/* A <Switch> looks through its children <Route>s and
             renders the first one that matches the current URL. */}
