@@ -5,6 +5,7 @@ import { getProjects } from "./actions/projects";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import Home from "./components/Home/Home";
 const App = () => {
     const classes = useStyles();
     const [currentId, setCurrentId] = useState<number | null>(null);
@@ -13,6 +14,10 @@ const App = () => {
         dispatch(getProjects());
     }, [currentId, dispatch]);
 
+    //Testing purposes
+    return <Home></Home>;
+
+    /*
     return (
         <Container maxWidth="lg">
             <AppBar
@@ -54,6 +59,7 @@ const App = () => {
             </Grow>
         </Container>
     );
+    */
 };
 
 export default App;
