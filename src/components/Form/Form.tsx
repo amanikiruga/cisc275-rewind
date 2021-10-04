@@ -1,21 +1,38 @@
 import useStyles from "./styles";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
-import { FormEvent, useState } from "react";
-import { useDispatch } from "react-redux";
-import { createProject } from "../../actions/projects";
+import { FormEvent, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createProject, editProject } from "../../actions/projects";
+import { NonNullExpression } from "typescript";
+type FormProps = {
+    setCurrentId: (id: number | null) => void;
+    currentId: number | null;
+};
 
-const Form = () => {
+const Form = (props: FormProps) => {
     const classes = useStyles();
     const [base64, setBase64] = useState<string>("");
     const [imagePreview, setImagePreview] = useState<any>("");
     const dispatch = useDispatch();
-    const [projectData, setProjectData] = useState({
+    const curProject = useSelector((state) =>
+        props.currentId
+            ? (state as any).projects.find(
+                  (p: any) => p._id === props.currentId
+              )
+            : null
+    );
+
+    useEffect(() => {
+        if (curProject) setProjectData(curProject);
+    }, [curProject]);
+    const defaultEmptyProject = {
         creator: "",
         title: "",
         content: "",
-        tags: "",
+        tags: [""],
         featuredImage: "",
-    });
+    };
+    const [projectData, setProjectData] = useState(defaultEmptyProject);
 
     const onChange = (e: any) => {
         if (e.target.files) {
@@ -41,7 +58,22 @@ const Form = () => {
         let payload = { image: base64 };
         setProjectData({ ...projectData, featuredImage: base64 });
         console.log("payload", payload);
-        dispatch(createProject(projectData));
+        if (props.currentId != null) {
+            dispatch(
+                editProject(props.currentId, {
+                    ...projectData,
+                    featuredImage: base64,
+                })
+            );
+        } else {
+            dispatch(
+                createProject({
+                    ...projectData,
+                    featuredImage: base64,
+                })
+            );
+        }
+        clear();
     };
     //https://github.com/GuScarpim/upload-image-react-base64/blob/main/front/src/pages/Upload.tsx
     const photoUpload = (e: any) => {
@@ -61,7 +93,10 @@ const Form = () => {
         }
     };
 
-    const clear = () => {};
+    const clear = () => {
+        props.setCurrentId(null);
+        setProjectData(defaultEmptyProject);
+    };
 
     return (
         <div className={classes.paper}>
@@ -72,7 +107,10 @@ const Form = () => {
                 onSubmit={onFileSubmit}
                 onChange={(e) => onChange(e)}
             >
-                <Typography variant="h6">Create a Project</Typography>
+                <Typography variant="h6">
+                    {`${props.currentId === null ? "Create a " : "Edit "}`}
+                    Project
+                </Typography>
                 <TextField
                     name="creator"
                     variant="outlined"
@@ -121,7 +159,7 @@ const Form = () => {
                     onChange={(e) => {
                         setProjectData({
                             ...projectData,
-                            tags: e.target.value,
+                            tags: e.target.value.split(","),
                         });
                     }}
                 />
@@ -152,7 +190,7 @@ const Form = () => {
                     onClick={clear}
                     fullWidth
                 >
-                    Submit
+                    Clear
                 </Button>
             </form>
         </div>

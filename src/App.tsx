@@ -4,13 +4,14 @@ import Form from "./components/Form/Form";
 import { getProjects } from "./actions/projects";
 import useStyles from "./styles";
 import { useDispatch } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const App = () => {
     const classes = useStyles();
+    const [currentId, setCurrentId] = useState<number | null>(null);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getProjects());
-    }, [dispatch]);
+    }, [currentId, dispatch]);
 
     return (
         <Container maxWidth="lg">
@@ -40,10 +41,13 @@ const App = () => {
                         spacing={3}
                     >
                         <Grid item xs={12} sm={7}>
-                            <Projects />
+                            <Projects setCurrentId={setCurrentId} />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <Form />
+                            <Form
+                                currentId={currentId}
+                                setCurrentId={setCurrentId}
+                            />
                         </Grid>
                     </Grid>
                 </Container>
